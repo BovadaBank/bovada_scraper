@@ -1,20 +1,20 @@
-
-//import agent from 'superagent-bluebird-promise'
+import agent from 'superagent-bluebird-promise'
 import { headers } from './config'
-const agent = require('superagent').agent()
 
 export const authWithBovada = (username, password) => {
   let data = {"username": username, "password":password}
-  return new Promise((resolve, reject)=> {
-    agent
-      .post('https://sports.bovada.lv/services/web/v2/oauth/token')
-      .send(data)
-      .set(headers)
-      .end((err, res) => {
-        if(err) {
-          reject(err)
-        }
-        resolve(Object.assign({}, {'body':res.body}, {'headers':res.headers}))
-      })
-  })
+  return agent
+        .post('https://sports.bovada.lv/services/web/v2/oauth/token')
+        .send(data)
+        .set(headers)
+        .then(res => Object.assign({}, {'body':res.body}, {'headers':res.headers}))
+        .catch(err => err)
+}
+
+export const getMatchesForSport = (sport) => {
+  return agent
+          .get(`https://sports.bovada.lv/${sport}?json=true`)
+          .set(headers)
+          .then(res => res.body)
+          .catch(err => err)
 }
