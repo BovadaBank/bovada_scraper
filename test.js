@@ -27,28 +27,7 @@ describe('should find all relative urls', () => {
     })
   })
 })
-describe('actions', () => {
-  it('should add multiple urls', done => {
-    Promise.join([
-      dispatch(urlFound('https://google.com')),
-      dispatch(urlFound('https://facebook.com'))
-    ])
-    .then(() => {
-      console.log(getState())
-      expect(getState().urls.length).to.be.eq(2)
-      done()
-    })
-  })
-  it('should remove https://google.com', done => {
-    console.log(getState().allUrls.indexOf('https://google.com'))
-    dispatch(urlQueried('https://google.com'))
-    .then(() => {
-      console.log(getState())
-      expect(getState().allUrls.length).to.be.eq(1)
-      done()
-    })
-  })
-})
+
 describe('bovada matches', () => {
   it('should get initial soccer matches', done => {
     getPageForSport('soccer')
