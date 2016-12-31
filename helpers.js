@@ -11,10 +11,24 @@ export const authWithBovada = (username, password) => {
         .catch(err => err)
 }
 
-export const getMatchesForSport = (sport) => {
+export const getPageForSport = (sport) => {
   return agent
           .get(`https://sports.bovada.lv/${sport}?json=true`)
           .set(headers)
           .then(res => res.body)
           .catch(err => err)
+}
+
+export const findRelativeUrls = (res) => {
+  let navigationMenu = res.data.page.navigation.navigation
+  let numberOfChildren = navigationMenu.length
+  let urls = []
+  navigationMenu.forEach(navItem => {
+    for(let i=0; i<numberOfChildren; i++) {
+      navigationMenu[i].items.forEach(item => {
+        urls.push(item.relativeUrl)
+      })
+    }
+  })
+  return urls
 }
