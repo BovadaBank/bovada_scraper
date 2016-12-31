@@ -1,0 +1,46 @@
+{
+  "name": "bovada_scraper",
+  "version": "1.0.0",
+  "description": "scrapes bovada for odds",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BovadaBank/bovada_scraper.git"
+  },
+  "keywords": [
+    "bovada",
+    "scraper"
+  ],
+  "author": "Jon Kolman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BovadaBank/bovada_scraper/issues"
+  },
+  "dependencies": {
+    "babel-eslint": "^7.0.0",
+    "babel-plugin-transform-object-rest-spread": "^6.16.0",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-register": "^6.5.1",
+    "bluebird": "^3.2.2",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0",
+    "superagent": "^1.8.4",
+    "superagent-bluebird-promise": "^4.1.0"
+  },
+  "devDependencies": {
+      "chai": "^3.5.0",
+      "dotenv": "^2.0.0",
+      "eslint": "^3.7.0",
+      "eslint-config-google": "^0.6.0",
+      "flow-bin": "^0.36.0",
+      "mocha": "^2.4.5",
+      "nodemon": "^1.11.0",
+      "superagent": "^1.7.2"
+    },
+
+  "homepage": "https://github.com/BovadaBank/bovada_scraper#readme"
+}
