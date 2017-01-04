@@ -21,9 +21,10 @@ describe('should find all relative urls', () => {
   it('should find all relative urls', done => {
     getPageForSport('basketball')
     .then((res) => {
-      let allUrlsForSport = findRelativeUrls(res)
-      expect(allUrlsForSport.length).to.be.gt(0)
-      done()
+      findRelativeUrls(res).then(() => {
+        expect(getState().urlsFound.length).to.be.gt(0)
+        done()
+      })
     })
   })
 })
@@ -32,35 +33,35 @@ describe('bovada matches', () => {
   it('should get initial soccer matches', done => {
     getPageForSport('soccer')
     .then(res => {
-      expect(res.error).to.eq(0)
+      expect(res.body.error).to.eq(0)
       done()
     })
   })
   it('should get initial basketball matches', done => {
     getPageForSport('basketball')
     .then(res => {
-      expect(res.error).to.eq(0)
+      expect(res.body.error).to.eq(0)
       done()
     })
   })
   it('should get initial baseball matches', done => {
     getPageForSport('baseball')
     .then(res => {
-      expect(res.error).to.eq(0)
+      expect(res.body.error).to.eq(0)
       done()
     })
   })
   it('should get initial football matches', done => {
     getPageForSport('football')
     .then(res => {
-      expect(res.error).to.eq(0)
+      expect(res.body.error).to.eq(0)
       done()
     })
   })
   it('should get initial tennis matches', done => {
     getPageForSport('tennis')
     .then(res => {
-      expect(res.error).to.eq(0)
+      expect(res.body.error).to.eq(0)
       done()
     })
   })
