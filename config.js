@@ -1,3 +1,9 @@
+import firebase from 'firebase'
+firebase.initializeApp({
+  databaseURL:'https://bovadascraper-8c581.firebaseio.com/',
+  apiKey: 'AIzaSyDs6kWurS9hvEhWbHW4vrizDxjrVcCfxFw'
+})
+export const matchRef = firebase.database().ref('matches')
 export const headers = {
     'Origin': 'https://www.bovada.lv',
     'Accept-Encoding': 'gzip, deflate, br',

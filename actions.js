@@ -1,3 +1,4 @@
+import { matchRef } from './config'
 import {
   URL_FOUND, 
   URL_QUERIED,
@@ -10,9 +11,11 @@ import {
 
 export const createMatch = (match) => dispatch => {
   return Promise.resolve(
-    dispatch({
-      type: CREATE_MATCH,
-      match
+    matchRef.child(match.id).set(match, () => {
+      dispatch({
+        type: CREATE_MATCH,
+        match
+      })
     })
   )
 }
