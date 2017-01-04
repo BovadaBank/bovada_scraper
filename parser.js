@@ -18,17 +18,6 @@ export const parsePageForMatches = (page) => {
         let {itemList:{items}} = item
         items.forEach(item => dispatch(createMatch(item)))
       })
-      // return Promise.all(Promise.map(items, (item) => {
-      //   return Promise.map(item.itemLists, (listItem) => dispatch(createMatch(listItem)))
-      // }))
     }
-    // Object.keys(rootNode).map(k => {
-    //   let { data } = rootNode[k]
-    //   if(data) {
-    //     let json = Object.keys(data).map(key => data[key])[0][0]
-    //     console.log(json)
-    //     resolve(json.card_data.items[0].itemList)
-    //   }
-    // })
   })
 }

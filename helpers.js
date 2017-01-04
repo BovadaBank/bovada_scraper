@@ -51,16 +51,4 @@ export const findRelativeUrls = (res, index=1) => {
     })
   }
   return Promise.resolve()
-  // let items
-  // try {
-  //   items = res.data.page.navigation.navigation
-  // }
-  // catch(err) {
-  //   return Promise.resolve()
-  // }
-  // if(items) {
-  //   return Promise.each(items, (item => dispatch(urlFound(item.relativeUrl))))
-
-  // }
-  
 }
