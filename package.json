@@ -27,6 +27,7 @@
     "babel-register": "^6.5.1",
     "bluebird": "^3.2.2",
     "firebase": "^3.6.4",
+    "mongodb": "^2.2.19",
     "mongoose": "^4.7.6",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
