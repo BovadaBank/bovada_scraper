@@ -3,16 +3,14 @@ import { store } from './store'
 import { matches } from './models'
 import { 
   leagueUrlFound, 
-  leagueUrlQueried, 
-  allLeagueUrlsFetched, 
+  leagueUrlQueried,  
   leagueAdded,
-  matchAdded,
-  matchUrlFound,
   matchUrlQueried
    } from './actions'
 import { headers } from './config'
 
 const {dispatch, getState} = store
+
 
 export const getPageForSport = (sport) => {
   return agent
