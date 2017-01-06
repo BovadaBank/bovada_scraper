@@ -1,47 +1,54 @@
-import {getPageForSport, getUrl, findRelativeUrls} from './helpers'
 import {
-  URL_FOUND, 
-  INITIAL_URLS_FETCHED, 
-  RESPONSE_OBJECT_ADDED,
-  CREATE_MATCH
+  getPageForSport, 
+  getLeagueUrl, 
+  getMatchUrl, 
+  findLeagueUrls,
+  saveMatch,
+  removeMatches,
+} from './helpers'
+import {
+  LEAGUE_URL_FOUND,  
+  LEAGUE_ADDED,
 } from './reducers'
 import { sports } from './constants'
-import { parsePageForMatches } from './parser'
+import { parseLeagueForMatchUrls } from './parser'
 import { store } from './store'
+import {initializeDatabase} from './config'
 
 const {getState, dispatch} = store
 
 const startScraping = () => {
     return Promise.map(sports, (sport) => {
-      return getPageForSport(sport).then(findRelativeUrls)
+      return getPageForSport(sport).then(findLeagueUrls)
     })
 }
 
 
+const checkIfDone = () => {
+  if(getState().matchUrlsFound.length > 0 && getState().matchUrlsFound.length === getState().matchUrlsQueried.length) {
+    return setTimeout(() => process.exit(), 20000)
+  }
+}
 const listenForStoreUpdates = () => {
   return Promise.resolve(store.subscribe(() => {
     let {lastAction} = getState()
     switch(lastAction.type) {
-      case URL_FOUND:
-        return getUrl(lastAction.url).then((res) => findRelativeUrls(res)).catch(err => err)
-      case INITIAL_URLS_FETCHED:
-        return console.log(getState().urlsFound.length)
-      case RESPONSE_OBJECT_ADDED:
-        console.log('response object added')
-        return parsePageForMatches(lastAction.responseObject)
-      case CREATE_MATCH:
-        console.log('match added', Object.keys(getState().matches).map(k => getState().matches[k]).length)
-        return
-
-
+      case LEAGUE_URL_FOUND:
+        return getLeagueUrl(lastAction.url).then((res) => findLeagueUrls(res)).catch(err => err)
+      case LEAGUE_ADDED:
+        return Promise.all(parseLeagueForMatchUrls(lastAction.league)
+                .map(getMatchUrl)
+                .map(saveMatch)).then(checkIfDone)
     }
   }))
 }
 
 const start = () => {
-  listenForStoreUpdates()
+  initializeDatabase()
+  .then(removeMatches)
+  .then(listenForStoreUpdates)
   .then(startScraping)
-  .catch(err => err)
+  .catch(console.log)
 }
 
 start()
