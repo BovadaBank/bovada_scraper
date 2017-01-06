@@ -1,18 +1,18 @@
 import agent from 'superagent-bluebird-promise'
 import { store } from './store'
-import { urlFound, urlQueried, initialUrlsFetched, responseObjectAdded } from './actions'
+import { matches } from './models'
+import { 
+  leagueUrlFound, 
+  leagueUrlQueried, 
+  allLeagueUrlsFetched, 
+  leagueAdded,
+  matchAdded,
+  matchUrlFound,
+  matchUrlQueried
+   } from './actions'
 import { headers } from './config'
 
 const {dispatch, getState} = store
-export const authWithBovada = (username, password) => {
-  let data = {"username": username, "password":password}
-  return agent
-        .post('https://sports.bovada.lv/services/web/v2/oauth/token')
-        .send(data)
-        .set(headers)
-        .then(res => Object.assign({}, {'body':res.body}, {'headers':res.headers}))
-        .catch(err => err)
-}
 
 export const getPageForSport = (sport) => {
   return agent
@@ -21,12 +21,12 @@ export const getPageForSport = (sport) => {
           .then(res => res)
           .catch(err => err)
 }
-export const getUrl = (url) => {
+export const getLeagueUrl = (url) => {
   return agent
           .get(`https://sports.bovada.lv${url}?json=true`)
           .set(headers)
           .then(res => {
-            dispatch(responseObjectAdded(res.body))
+            dispatch(leagueAdded(res.body))
             return {
               body:res.body,
               url
@@ -34,19 +34,48 @@ export const getUrl = (url) => {
           })
           .catch(err => err)
 }
+export const getMatchUrl = (url) => {
+  return agent
+          .get(`https://sports.bovada.lv${url}?json=true`)
+          .set(headers)
+          .then(res => {
 
+            let dict = res.body.data.regions.content_center
+            let matchInfo = dict[Object.keys(dict)[0]]['json-var'].value.items[0]
+            let data = dict[Object.keys(dict)[0]]['json-var'].value.items[0].displayGroups
+            let alternateLines = data[1]
+            let gameLines = data[0]
+            let matchData = {
+              gameLines,
+              homeTeam: matchInfo.competitors[0].description,
+              awayTeam: matchInfo.competitors[1].description,
+              startTime:matchInfo.startTime,
+              alternateLines,
+            }
+            return dispatch(matchUrlQueried(url)).return(matchData)
+          })
+          .catch(err => {
+            dispatch(matchUrlQueried(url)).return(err)
 
-export const findRelativeUrls = (res, index=1) => {
-  dispatch(urlQueried(res.url))
-  if(getState().urlsFound.length === getState().urlsQueried.length) {
-    return dispatch(initialUrlsFetched())
+          })
+}
+export const saveMatch = (match) => {
+  return matches.create(match).then((data) => data.save())
+}
+export const removeMatches = () => {
+  return matches.remove({})
+}
+
+export const findLeagueUrls = (res, index=1) => {
+  if(getState().leagueUrlsQueried.indexOf(res.url) === -1) {
+    dispatch(leagueUrlQueried(res.url))
   }
   let subNavs = res.body.data.page.navigation.navigation
   for(let i=index; i<subNavs.length; i++) {
     let linksInNav = subNavs[i].items.map(item => item.relativeUrl)
     linksInNav.forEach(link => {
-      if (getState().urlsFound.indexOf(link) ===-1) {
-        return dispatch(urlFound(link))
+      if (getState().leagueUrlsFound.indexOf(link) ===-1) {
+        return dispatch(leagueUrlFound(link))
       }
     })
   }
