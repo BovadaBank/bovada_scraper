@@ -1,8 +1,11 @@
+import mongoose from 'mongoose'
 import firebase from 'firebase'
 firebase.initializeApp({
   databaseURL:'https://bovadascraper-8c581.firebaseio.com/',
   apiKey: 'AIzaSyDs6kWurS9hvEhWbHW4vrizDxjrVcCfxFw'
 })
+//this doesn't look like it's being used but import is neccessary for mongoose to register the model
+import { match } from './models'
 export const matchRef = firebase.database().ref('matches')
 export const headers = {
     'Origin': 'https://www.bovada.lv',
@@ -18,3 +21,15 @@ export const headers = {
 };
 
 global.Promise = require('bluebird')
+mongoose.Promise = global.Promise
+export const initializeDatabase = () => {
+  return new Promise((resolve, reject)=> {
+    mongoose.connect('mongodb://localhost/betstream_db');
+    let db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function() {
+      console.log('connected to database')
+      resolve('connected to database')
+    });
+  })
+}
