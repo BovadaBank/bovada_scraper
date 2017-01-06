@@ -1,29 +1,36 @@
 import { matchRef } from './config'
 import {
-  URL_FOUND, 
-  URL_QUERIED,
-  INITIAL_URLS_FETCHED,
+  LEAGUE_URL_FOUND, 
+  LEAGUE_URL_QUERIED,
+  ALL_LEAGUE_URLS_FETCHED,
   INDEX_CHANGED,
-  RESPONSE_OBJECT_ADDED,
+  LEAGUE_ADDED,
   RESPONSE_OBJECT_PARSED,
-  CREATE_MATCH
+  MATCH_URL_FOUND,
+  MATCH_URL_QUERIED
 } from './reducers'
 
-export const createMatch = (match) => dispatch => {
+export const matchUrlFound = (url) => dispatch => {
   return Promise.resolve(
-    matchRef.child(match.id).set(match, () => {
-      dispatch({
-        type: CREATE_MATCH,
-        match
-      })
+    dispatch({
+      type: MATCH_URL_FOUND,
+      url
     })
   )
 }
-export const responseObjectAdded = (responseObject) => dispatch => {
+export const matchUrlQueried = (url) => dispatch => {
   return Promise.resolve(
     dispatch({
-      type: RESPONSE_OBJECT_ADDED,
-      responseObject
+      type: MATCH_URL_QUERIED,
+      url
+    })
+  )
+}
+export const leagueAdded = (league) => dispatch => {
+  return Promise.resolve(
+    dispatch({
+      type: LEAGUE_ADDED,
+      league
     }))
 }
 export const responseObjectParsed = (responseObject) => dispatch => {
@@ -39,26 +46,26 @@ export const indexChanged = (index) => dispatch => {
     index
   }))
 }
-export const urlQueried = (url) => dispatch => {
+export const leagueUrlQueried = (url) => dispatch => {
   return new Promise(resolve => {
     dispatch({
-      type: URL_QUERIED,
+      type: LEAGUE_URL_QUERIED,
       url
     })
   })
 }
-export const urlFound = (url) => dispatch => {
+export const leagueUrlFound = (url) => dispatch => {
   return new Promise(resolve => {
     dispatch({
-      type: URL_FOUND,
+      type: LEAGUE_URL_FOUND,
       url
     })
     resolve(url)
   })
 }
 
-export const initialUrlsFetched = () => dispatch => {
+export const allLeagueUrlsFetched = () => dispatch => {
   return Promise.resolve(dispatch({
-    type: INITIAL_URLS_FETCHED
+    type: ALL_LEAGUE_URLS_FETCHED
   }))
 }

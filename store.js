@@ -1,18 +1,21 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import { 
-  urlsFound,
-  urlsQueried, 
-  responseObjects, 
+  leagueUrlsFound,
+  leagueUrlsQueried, 
+  leagues, 
   lastAction, 
   lastIndex, 
-  matches } from './reducers'
+  matchUrlsFound,
+  matchUrlsQueried
+   } from './reducers'
 import thunk from 'redux-thunk';
 
 export const store = createStore(combineReducers({
-  urlsFound,
-  urlsQueried,
-  responseObjects,
+  leagueUrlsFound,
+  leagueUrlsQueried,
+  leagues,
   lastAction,
   lastIndex,
-  matches
+  matchUrlsFound,
+  matchUrlsQueried
 }), applyMiddleware(thunk))
