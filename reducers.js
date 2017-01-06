@@ -1,9 +1,9 @@
-export const URL_FOUND = 'URL_FOUND'
-export const URL_QUERIED = 'URL_QUERIED'
-export const INITIAL_URLS_FETCHED = 'INITIAL_URLS_FETCHED'
+export const LEAGUE_URL_FOUND = 'LEAGUE_URL_FOUND'
+export const LEAGUE_URL_QUERIED = 'LEAGUE_URL_QUERIED'
+export const MATCH_URL_FOUND = 'MATCH_URL_FOUND'
+export const MATCH_URL_QUERIED = 'MATCH_URL_QUERIED'
 export const INDEX_CHANGED = 'INDEX_CHANGED'
-export const RESPONSE_OBJECT_ADDED = 'RESPONSE_OBJECT_ADDED'
-export const RESPONSE_OBJECT_PARSED = 'RESPONSE_OBJECT_PARSED'
+export const LEAGUE_ADDED = 'LEAGUE_ADDED'
 export const CREATE_MATCH = 'CREATE_MATCH'
 
 export const lastAction = (state=null, action) => {
@@ -18,19 +18,33 @@ export const matches = (state={}, action) => {
       return state
   }
 }
-export const responseObjects = (state=[], action) => {
+export const matchUrlsFound = (state=[], action) => {
   switch(action.type) {
-    case RESPONSE_OBJECT_ADDED:
-      return [...state, action.responseObject]
-    case RESPONSE_OBJECT_PARSED:
-      return [...state].splice(state.indexOf(action.responseObject), 1)
+    case MATCH_URL_FOUND:
+      return [...state, action.url]
     default:
       return state
   }
 }
-export const urlsFound = (state=[], action) => {
+export const matchUrlsQueried = (state=[], action) => {
   switch(action.type) {
-    case URL_FOUND:
+    case MATCH_URL_QUERIED:
+      return [...state, action.url]
+    default:
+      return state
+  }
+}
+export const leagues = (state=[], action) => {
+  switch(action.type) {
+    case LEAGUE_ADDED:
+      return [...state, action.responseObject]
+    default:
+      return state
+  }
+}
+export const leagueUrlsFound = (state=[], action) => {
+  switch(action.type) {
+    case LEAGUE_URL_FOUND:
       return [...state, action.url]
     default:
       return state
@@ -44,9 +58,9 @@ export const lastIndex = (state=0, action) => {
       return state
   }
 }
-export const urlsQueried = (state=[], action) => {
+export const leagueUrlsQueried = (state=[], action) => {
   switch(action.type) {
-    case URL_QUERIED:
+    case LEAGUE_URL_QUERIED:
       return [...state, action.url]
     default:
       return state
