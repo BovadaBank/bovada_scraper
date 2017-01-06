@@ -31,19 +31,12 @@
     "mongoose": "^4.7.6",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
-    "request": "^2.79.0",
     "superagent": "^1.8.4",
     "superagent-bluebird-promise": "^4.1.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "dotenv": "^2.0.0",
-    "eslint": "^3.7.0",
-    "eslint-config-google": "^0.6.0",
-    "flow-bin": "^0.36.0",
     "mocha": "^2.4.5",
-    "nodemon": "^1.11.0",
-    "superagent": "^1.7.2"
   },
   "homepage": "https://github.com/BovadaBank/bovada_scraper#readme"
 }
