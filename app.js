@@ -26,6 +26,7 @@ const startScraping = () => {
 
 const checkIfDone = () => {
   if(getState().matchUrlsFound.length > 0 && getState().matchUrlsFound.length === getState().matchUrlsQueried.length) {
+    console.log('bovada matches fetched :) exiting in 20000 ms')
     return setTimeout(() => process.exit(), 20000)
   }
 }
@@ -39,6 +40,7 @@ const listenForStoreUpdates = () => {
         return Promise.all(parseLeagueForMatchUrls(lastAction.league)
                 .map(getMatchUrl)
                 .map(saveMatch)).then(checkIfDone)
+                .catch(err => err)
     }
   }))
 }
