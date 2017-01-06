@@ -2,27 +2,18 @@ import {store} from './store'
 import {expect} from 'chai'
 import {urlFound, urlQueried} from './actions'
 import { 
-  authWithBovada,
   getPageForSport,
-  findRelativeUrls
+  findLeagueUrls
 } from './helpers'
 
 let {dispatch, getState} = store
-describe('should auth with bovada', () => {
-  it('should auth with bovada', done => {
-    authWithBovada('jonathankolman@gmail.com', 'MakingMoney1995')
-    .then(res => {
-      expect(res.body.access_token).to.not.be.null
-      done()
-    })
-  })
-})
-describe('should find all relative urls', () => {
-  it('should find all relative urls', done => {
+
+describe('should find all league urls', () => {
+  it('should find all league urls', done => {
     getPageForSport('basketball')
     .then((res) => {
-      findRelativeUrls(res).then(() => {
-        expect(getState().urlsFound.length).to.be.gt(0)
+      findLeagueUrls(res).then(() => {
+        expect(getState().leagueUrlsFound.length).to.be.gt(0)
         done()
       })
     })
